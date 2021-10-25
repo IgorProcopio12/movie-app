@@ -9,27 +9,24 @@ import {
   StyleSheet,
   Animated,
   Keyboard,
-
-
 } from "react-native";
-
-import PasswordToggle from "../Components/PasswordToggle";
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
-
-
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Login({ navigation }) {
   const [offSet] = React.useState(new Animated.ValueXY({ x: 0, y: 95 }));
   const [opacity] = React.useState(new Animated.Value(0));
   const [logo] = React.useState(new Animated.ValueXY({ x: 130, y: 155 }));
   const [font] = React.useState(new Animated.Value(22));
-
+  const [passwordInput, setPasswordInput] = React.useState('');
+  const [hidePass, setHidePass] = React.useState(true);
+  const [disable, setDisable] = React.useState(true);
   const entrar = () => {
     navigation.reset({
       index: 0,
       routes: [{ name: "Home" }],
     });
   };
+
 
 
   React.useEffect(() => {
@@ -103,32 +100,44 @@ export default function Login({ navigation }) {
 
       <Animated.View
         style={[
-          styles.container,
+          styles.containerEmail,
           {
             opacity: opacity,
             transform: [{ translateY: offSet.y }],
           },
         ]}
       >
+
         <TextInput
-          style={styles.input}
+          style={styles.inputEmail}
           type="Email"
           keyboardType="email-address"
           placeholder="Email"
           autoCorrect={false}
 
         />
+        <Animated.View style={styles.inputArea}>
+          <TextInput
+            maxLength={16}
+            secureTextEntry={hidePass}
+            style={styles.inputSenha}
+            type="password"
+            placeholder="Password"
+            autoCorrect={false}
+            value={passwordInput}
+            onChangeText={(texto) => setPasswordInput(texto)}
 
-        <TextInput
-          maxLength={16}
-          secureTextEntry={true}
-          style={styles.input}
-          type="password"
-          placeholder="Password"
-          autoCorrect={false}
-         
-        />
+          />
+          <TouchableOpacity disabled={disable} style={styles.icon}>
+            {hidePass ?
 
+              <Ionicons name="eye" color="black" size={20} onPress={() => setHidePass(!hidePass)} />
+              :
+              <Ionicons name="eye-off" color="black" size={20} onPress={() => setHidePass(!hidePass)} />
+
+            }
+          </TouchableOpacity>
+        </Animated.View>
         <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate("Home")}>
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
@@ -148,12 +157,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#191919",
-
   },
   containerLogo: {
     flex: 1,
     justifyContent: "center",
-
   },
   title: {
     color: '#FFF',
@@ -161,15 +168,18 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     justifyContent: 'center',
     fontWeight: "600",
-
   },
-  container: {
+  containerEmail: {
     flex: 1,
     alignItems: "center",
     width: "90%",
   },
-
-  input: {
+  containerSenha: {
+    flexDirection: 'row',
+    alignItems: "center",
+    width: "90%",
+  },
+  inputEmail: {
     backgroundColor: "#FFF",
     width: "90%",
     marginBottom: 15,
@@ -178,6 +188,43 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     padding: 10,
   },
+  inputSenha: {
+    backgroundColor: "#FFF",
+    marginBottom: 15,
+    marginTop: 15,
+    color: "#222",
+    fontSize: 17,
+    borderRadius: 7,
+    padding: 10,
+    height: 45,
+    width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputArea: {
+    flexDirection: 'row',
+    width: '90%',
+    backgroundColor: '#FFF',
+    borderRadius: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 45,
+    marginBottom: 15,
+
+  },
+  icon: {
+    width: '10%',
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  containerButtons: {
+    flex: 1,
+    alignItems: "center",
+    width: "90%",
+  },
+
   btnSubmit: {
     backgroundColor: "#CD2F0D",
     width: "90%",
