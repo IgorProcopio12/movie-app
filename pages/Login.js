@@ -8,8 +8,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
-  Keyboard
+  Keyboard,
+
+
 } from "react-native";
+
+import PasswordToggle from "../Components/PasswordToggle";
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
+
+
 
 export default function Login({ navigation }) {
   const [offSet] = React.useState(new Animated.ValueXY({ x: 0, y: 95 }));
@@ -109,7 +116,7 @@ export default function Login({ navigation }) {
           keyboardType="email-address"
           placeholder="Email"
           autoCorrect={false}
-          onChangeText={() => { }}
+
         />
 
         <TextInput
@@ -119,7 +126,7 @@ export default function Login({ navigation }) {
           type="password"
           placeholder="Password"
           autoCorrect={false}
-          onChangeText={() => { }}
+         
         />
 
         <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate("Home")}>
@@ -131,7 +138,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </Animated.View>
 
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   );
 }
 
