@@ -19,14 +19,8 @@ export default function Login({ navigation }) {
   const [font] = React.useState(new Animated.Value(22));
   const [passwordInput, setPasswordInput] = React.useState('');
   const [hidePass, setHidePass] = React.useState(true);
-  const [disable, setDisable] = React.useState(true);
-  const entrar = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Home" }],
-    });
-  };
 
+ 
 
 
   React.useEffect(() => {
@@ -50,11 +44,11 @@ export default function Login({ navigation }) {
   function keyboardDidShow() {
     Animated.parallel([
       Animated.timing(logo.x, {
-        toValue: 85,
+        toValue: 105,
         duration: 300,
       }),
       Animated.timing(logo.y, {
-        toValue: 95,
+        toValue: 115,
         duration: 300,
       }),
       Animated.timing(font, {
@@ -128,7 +122,7 @@ export default function Login({ navigation }) {
             onChangeText={(texto) => setPasswordInput(texto)}
 
           />
-          <TouchableOpacity disabled={disable} style={styles.icon}>
+          <TouchableOpacity style={styles.icon}>
             {hidePass ?
 
               <Ionicons name="eye" color="black" size={20} onPress={() => setHidePass(!hidePass)} />
@@ -142,7 +136,7 @@ export default function Login({ navigation }) {
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btnRegister}>
+        <TouchableOpacity style={styles.btnRegister} onPress={() => navigation.navigate("Register")}>
           <Text style={styles.registerText}>Crie Sua Conta</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -197,7 +191,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     padding: 10,
     height: 45,
-    width: "100%",
+    width: "90%",
     justifyContent: 'center',
     alignItems: 'center',
   },
