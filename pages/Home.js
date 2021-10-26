@@ -35,7 +35,7 @@ export default function Home({ navigation }) {
             tabBarOptions={{
                 activeTintColor: '#FFFFFF',
                 tabStyle: {
-                    paddingTop: 5,
+                    paddingTop: 15,
                     paddingBottom: 5,
                 }
             }}>
