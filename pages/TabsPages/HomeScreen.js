@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Touchable, Image } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 import Icon from '@expo/vector-icons/MaterialIcons';
@@ -53,19 +53,21 @@ export default function HomeScreen() {
   ]);
   const [background, setBackground] = React.useState(lista[0].img)
 
-  const _renderItem = ({ item, index}) => {
-    return(
+  const [activeIndex, setActiveIndex] = React.useState(0);
+
+  const _renderItem = ({ item, index }) => {
+    return (
       <View>
         <TouchableOpacity>
           <Image
-          source={{uri: item.img}}
-          style={styles.carouselImg}/>
-          <Text style={styles.carouselText}>{item.title}</Text>  
-          <Icon 
-          name="play-circle-outline" 
-          size={30} 
-          color="#FFF" 
-          style={styles.carouselIcon} /> 
+            source={{ uri: item.img }}
+            style={styles.carouselImg} />
+          <Text style={styles.carouselText}>{item.title}</Text>
+          <Icon
+            name="play-circle-outline"
+            size={30}
+            color="#FFF"
+            style={styles.carouselIcon} />
 
         </TouchableOpacity>
       </View>
@@ -77,35 +79,78 @@ export default function HomeScreen() {
       <View style={{ flex: 1, height: screenHeight }}>
         <View style={{ ...StyleSheet.absoluteFill, backgroundColor: '#000' }}>
           <ImageBackground
-            source={{ uri: background }}
             style={styles.imgBg}
             blurRadius={8}
           >
-            <View style={styles.viewSearch}>
-              <TextInput
-                style={styles.input}
-                placeholder="Procurando algo?">
-              </TextInput>
-              <TouchableOpacity style={styles.icon}>
-                <Icon name="search" color="#000" size={25} />
-              </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+
+              <Image source={require('./movie.png')} style={styles.logo} />
+              <View style={styles.viewSearch}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Procurando algo?">
+                </TextInput>
+                <TouchableOpacity style={styles.icon}>
+                  <Icon name="search" color="#000" size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
-            <Text style={{color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10,}}>
+            <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
               Acabou de Chegar
             </Text>
             <View style={styles.slideView}>
               <Carousel
-              style={styles.carousel}
-              ref={carouselRef}
-              data={lista}
-              renderItem={_renderItem}
-              sliderWidth={screenWidth} 
-              itemWidth={200}
-              inactiveSlideOpacity={0.5}
+                style={styles.carousel}
+                ref={carouselRef}
+                data={lista}
+                renderItem={_renderItem}
+                sliderWidth={screenWidth}
+                itemWidth={200}
+                inactiveSlideOpacity={0.5}
+                onSnapToItem={(index) => {
+                  setBackground(lista[index].img);
+                  setActiveIndex(index);
+                }}
+              />
+            </View>
+            <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
+              Filmes de Ação
+            </Text>
+            <View style={styles.slideView}>
+              <Carousel
+                style={styles.carousel}
+                ref={carouselRef}
+                data={lista}
+                renderItem={_renderItem}
+                sliderWidth={screenWidth}
+                itemWidth={200}
+                inactiveSlideOpacity={0.5}
+                onSnapToItem={(index) => {
+                  setBackground(lista[index].img);
+                  setActiveIndex(index);
+                }}
+              />
+            </View>
+            <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
+              Filmes de Ação
+            </Text>
+            <View style={styles.slideView}>
+              <Carousel
+                style={styles.carousel}
+                ref={carouselRef}
+                data={lista}
+                renderItem={_renderItem}
+                sliderWidth={screenWidth}
+                itemWidth={200}
+                inactiveSlideOpacity={0.5}
+                onSnapToItem={(index) => {
+                  setBackground(lista[index].img);
+                  setActiveIndex(index);
+                }}
               />
             </View>
           </ImageBackground>
-          
+
         </View>
 
       </View>
@@ -127,7 +172,7 @@ const styles = StyleSheet.create({
     height: null,
     opacity: 1,
     justifyContent: 'flex-start',
-    backgroundColor: "#000"
+    backgroundColor: "#black"
 
   },
   viewSearch: {
@@ -136,7 +181,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderRadius: 7,
     marginVertical: 10,
-    width: '95%',
+    width: '80%',
     flexDirection: 'row',
     alignSelf: 'center',
   },
@@ -182,5 +227,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 25,
     right: 15,
+  },
+  logo:{
+    width: 60,
+    height: 60,
+    marginTop: 40,
   },
 })
