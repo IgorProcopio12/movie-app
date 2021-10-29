@@ -18,7 +18,9 @@ export default function Regsiter({ navigation }) {
     const [logo] = React.useState(new Animated.ValueXY({ x: 130, y: 155 }));
     const [font] = React.useState(new Animated.Value(22));
     const [passwordInput, setPasswordInput] = React.useState('');
+    const [confirmPasswordInput, setConfirmPasswordInput] = React.useState('');    
     const [hidePass, setHidePass] = React.useState(true);
+    const [hideConfirmPass, setHideConfirmPass] = React.useState(true);
   
     
 
@@ -136,21 +138,21 @@ export default function Regsiter({ navigation }) {
             <Animated.View style={styles.inputArea}>
               <TextInput
                 maxLength={16}
-                secureTextEntry={hidePass}
+                secureTextEntry={hideConfirmPass}
                 style={styles.inputSenha}
                 type="password"
                 placeholder="Confirm Your Password"
                 autoCorrect={false}
-                value={passwordInput}
-                onChangeText={(texto) => setPasswordInput(texto)}
+                value={confirmPasswordInput}
+                onChangeText={(texto) => setConfirmPasswordInput(texto)}
     
               />
               <TouchableOpacity style={styles.icon}>
-                {hidePass ?
+                {hideConfirmPass ?
     
-                  <Ionicons name="eye" color="black" size={20} onPress={() => setHidePass(!hidePass)} />
+                  <Ionicons name="eye" color="black" size={20} onPress={() => setHideConfirmPass(!hideConfirmPass)} />
                   :
-                  <Ionicons name="eye-off" color="black" size={20} onPress={() => setHidePass(!hidePass)} />
+                  <Ionicons name="eye-off" color="black" size={20} onPress={() => setHideConfirmPass(!hideConfirmPass)} />
     
                 }
               </TouchableOpacity>

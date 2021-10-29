@@ -77,7 +77,7 @@ export default function HomeScreen() {
   return (
     <ScrollView styles={styles.container} >
       <View style={{ flex: 1, height: screenHeight }}>
-        <View style={{ ...StyleSheet.absoluteFill, backgroundColor: '#000' }}>
+        <View style={{ ...StyleSheet.absoluteFill, }}>
           <ImageBackground
             style={styles.imgBg}
             blurRadius={8}
@@ -85,18 +85,13 @@ export default function HomeScreen() {
             <View style={{flexDirection: 'row'}}>
 
               <Image source={require('./movie.png')} style={styles.logo} />
-              <View style={styles.viewSearch}>
                 <TextInput
                   style={styles.input}
                   placeholder="Procurando algo?">
                 </TextInput>
-                <TouchableOpacity style={styles.icon}>
-                  <Icon name="search" color="#000" size={25} />
-                </TouchableOpacity>
-              </View>
             </View>
             <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Lançamentos
+              Ação/Aventura
             </Text>
             <View style={styles.slideView}>
               <Carousel
@@ -114,7 +109,7 @@ export default function HomeScreen() {
               />
             </View>
             <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Filmes de Ação
+            Romance
             </Text>
             <View style={styles.slideView}>
               <Carousel
@@ -132,7 +127,7 @@ export default function HomeScreen() {
               />
             </View>
             <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Filmes de Ação
+              Comédia
             </Text>
             <View style={styles.slideView}>
               <Carousel
@@ -172,24 +167,27 @@ const styles = StyleSheet.create({
     height: null,
     opacity: 1,
     justifyContent: 'flex-start',
-    backgroundColor: "#black"
+    backgroundColor: "#222"
 
   },
-  viewSearch: {
-    marginTop: 50,
-    backgroundColor: '#FFF',
-    elevation: 10,
-    borderRadius: 7,
-    marginVertical: 10,
-    width: '80%',
-    flexDirection: 'row',
-    alignSelf: 'center',
+  logo:{
+    width: 60,
+    height: 60,
+    marginTop: 45,
+    marginLeft: 10,
   },
   input: {
-    width: '95%',
-    padding: 13,
-    paddingLeft: 20,
-    fontSize: 17,
+    backgroundColor: '#CFCFCF',
+    width: '75%',
+    height: '40%',
+    borderRadius: 7,
+    fontSize: 16,
+    fontStyle: 'italic',
+    padding:10,
+    marginTop: 55,
+    marginLeft: 10,
+    alignSelf:'center',
+    justifyContent: 'center',
   },
   icon: {
     position: 'absolute',
@@ -228,9 +226,5 @@ const styles = StyleSheet.create({
     top: 25,
     right: 15,
   },
-  logo:{
-    width: 60,
-    height: 60,
-    marginTop: 40,
-  },
+  
 })

@@ -32,10 +32,14 @@ export default function Login({ navigation }) {
         toValue: 0,
         speed: 1,
         bounciness: 15,
+        useNativeDriver: false,
+
       }),
       Animated.timing(opacity, {
         toValue: 1,
         duration: 1000,
+        useNativeDriver: false,
+
       }),
     ]).start();
   }, []);
@@ -46,14 +50,20 @@ export default function Login({ navigation }) {
       Animated.timing(logo.x, {
         toValue: 105,
         duration: 300,
+        useNativeDriver: false,
+
       }),
       Animated.timing(logo.y, {
         toValue: 115,
         duration: 300,
+        useNativeDriver: false,
+
       }),
       Animated.timing(font, {
         toValue: 14,
         duration: 300,
+        useNativeDriver: false,
+
       }),
     ]).start();
   }
@@ -63,14 +73,19 @@ export default function Login({ navigation }) {
       Animated.timing(logo.x, {
         toValue: 130,
         duration: 300,
+        useNativeDriver: false,
       }),
       Animated.timing(logo.y, {
         toValue: 155,
         duration: 300,
+        useNativeDriver: false,
+        
       }),
       Animated.timing(font, {
         toValue: 22,
         duration: 300,
+        useNativeDriver: false,
+
       }),
     ]).start();
   }

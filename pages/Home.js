@@ -44,7 +44,7 @@ export default function Home({ navigation }) {
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <Entypo name="home" size={size} color={color} />
+                        <Entypo name="home" size={size} color={color} style={{marginBottom:10,}} />
                     )
                 }}
             />
@@ -53,7 +53,7 @@ export default function Home({ navigation }) {
                 component={Add}
                 options={{
                     tabBarIcon: ({ focused, size, color }) => (
-                        <AddButton size={size} color={color} focused={focused}/>
+                        <AddButton size={size} color={color} focused={focused} />
                     )
                 }}
             />
@@ -63,7 +63,7 @@ export default function Home({ navigation }) {
                 component={Profile} 
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <Entypo name="user" size={size} color={color} />
+                        <Entypo name="user" size={size} color={color} style={{marginBottom:10,}} />
                     )
                 }}
             />
