@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Login"
       screenOptions={{
         // headerTitleAlign: "center",
         // headerMode: "screen",

@@ -96,7 +96,7 @@ export default function HomeScreen() {
               </View>
             </View>
             <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Acabou de Chegar
+              Lançamentos
             </Text>
             <View style={styles.slideView}>
               <Carousel
