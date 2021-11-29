@@ -12,6 +12,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 export default function HomeScreen() {
 
   const carouselRef = React.useRef(null);
+  const URL = 'http://localhost:3000';
 
   const [lista, setLista] = React.useState([
     {
@@ -52,6 +53,7 @@ export default function HomeScreen() {
     },
   ]);
   const [background, setBackground] = React.useState(lista[0].img)
+  const [heart, setOutlineHeart] = React.useState(true);
 
   const [activeIndex, setActiveIndex] = React.useState(0);
 
@@ -63,12 +65,17 @@ export default function HomeScreen() {
             source={{ uri: item.img }}
             style={styles.carouselImg} />
           <Text style={styles.carouselText}>{item.title}</Text>
-          <Icon
-            name="play-circle-outline"
-            size={30}
-            color="#FFF"
-            style={styles.carouselIcon} />
+          {heart ?
+            <Icon
+              name="favorite_border"
+              size={30}
+              color="#FFF"
+              style={styles.carouselIcon}
+              onPress={() => setOutlineHeart(!heart)} />
+            :
+            <Icon name="favorite" color="red" size={30} onPress={() => setOutlineHeart(!heart)} />
 
+          }
         </TouchableOpacity>
       </View>
     )
@@ -82,13 +89,13 @@ export default function HomeScreen() {
             style={styles.imgBg}
             blurRadius={8}
           >
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
 
               <Image source={require('./movie.png')} style={styles.logo} />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Procurando algo?">
-                </TextInput>
+              <TextInput
+                style={styles.input}
+                placeholder="Procurando algo?">
+              </TextInput>
             </View>
             <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
               Ação/Aventura
@@ -109,7 +116,7 @@ export default function HomeScreen() {
               />
             </View>
             <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-            Romance
+              Romance
             </Text>
             <View style={styles.slideView}>
               <Carousel
@@ -170,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#222"
 
   },
-  logo:{
+  logo: {
     width: 60,
     height: 60,
     marginTop: 45,
@@ -183,10 +190,10 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     fontSize: 16,
     fontStyle: 'italic',
-    padding:10,
+    padding: 10,
     marginTop: 55,
     marginLeft: 10,
-    alignSelf:'center',
+    alignSelf: 'center',
     justifyContent: 'center',
   },
   icon: {
@@ -226,5 +233,5 @@ const styles = StyleSheet.create({
     top: 25,
     right: 15,
   },
-  
+
 })

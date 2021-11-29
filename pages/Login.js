@@ -1,26 +1,42 @@
+import { Ionicons } from '@expo/vector-icons';
 import * as React from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
   Animated,
-  Keyboard,
+  Keyboard, KeyboardAvoidingView, StyleSheet, Text,
+  TextInput, TouchableOpacity, View
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
 
 export default function Login({ navigation }) {
+  const URL = 'http://localhost:3000';
   const [offSet] = React.useState(new Animated.ValueXY({ x: 0, y: 95 }));
   const [opacity] = React.useState(new Animated.Value(0));
   const [logo] = React.useState(new Animated.ValueXY({ x: 130, y: 155 }));
   const [font] = React.useState(new Animated.Value(22));
-  const [passwordInput, setPasswordInput] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [hidePass, setHidePass] = React.useState(true);
 
- 
+  const handleLogin = () => {
+    fetch(`${URL}/users?email=${email}&password=${password}`, {
+      method: "GET",
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).then((response) => response.json())
+      .then((result) => {
+        if (result.length != 0) {
+          navigation.navigate("Home");
+        } else {
+          alert("dados inválidos")
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  console.log(password);
+  console.log(email);
 
 
   React.useEffect(() => {
@@ -79,7 +95,7 @@ export default function Login({ navigation }) {
         toValue: 155,
         duration: 300,
         useNativeDriver: false,
-        
+
       }),
       Animated.timing(font, {
         toValue: 22,
@@ -89,6 +105,7 @@ export default function Login({ navigation }) {
       }),
     ]).start();
   }
+  
 
   return (
     <KeyboardAvoidingView style={styles.background}>
@@ -123,6 +140,7 @@ export default function Login({ navigation }) {
           keyboardType="email-address"
           placeholder="Email"
           autoCorrect={false}
+          onChangeText={setEmail}
 
         />
         <Animated.View style={styles.inputArea}>
@@ -133,10 +151,11 @@ export default function Login({ navigation }) {
             type="password"
             placeholder="Password"
             autoCorrect={false}
-            value={passwordInput}
-            onChangeText={(texto) => setPasswordInput(texto)}
+            value={password}
+            onChangeText={(texto) => setPassword(texto)}
 
           />
+          
           <TouchableOpacity style={styles.icon}>
             {hidePass ?
 
@@ -147,7 +166,7 @@ export default function Login({ navigation }) {
             }
           </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate("Home")}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={handleLogin}>
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
 
