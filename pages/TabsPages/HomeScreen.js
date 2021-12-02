@@ -67,13 +67,13 @@ export default function HomeScreen() {
           <Text style={styles.carouselText}>{item.title}</Text>
           {heart ?
             <Icon
-              name="favorite_border"
+              name="favorite"
               size={30}
               color="#FFF"
               style={styles.carouselIcon}
               onPress={() => setOutlineHeart(!heart)} />
             :
-            <Icon name="favorite" color="red" size={30} onPress={() => setOutlineHeart(!heart)} />
+            <Icon name="favorite" style={styles.carouselIcon} color="red" size={30} onPress={() => setOutlineHeart(!heart)} />
 
           }
         </TouchableOpacity>

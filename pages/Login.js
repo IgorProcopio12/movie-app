@@ -47,7 +47,6 @@ export default function Login({ navigation }) {
       Animated.spring(offSet.y, {
         toValue: 0,
         speed: 1,
-        bounciness: 15,
         useNativeDriver: false,
 
       }),

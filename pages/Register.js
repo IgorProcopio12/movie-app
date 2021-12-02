@@ -26,6 +26,7 @@ export default function Regsiter({ navigation }) {
 
 
   const handleRegister = () => {
+    if (password != "" && email != ""){
     if (password == confirmPassword) {
       fetch(`${URL}/users?email=${email}&password=${password}`, {
         method: "POST",
@@ -47,9 +48,12 @@ export default function Regsiter({ navigation }) {
           console.error(error)
         })
     } else {
-      alert("senhas inválidas");
-    }
+      alert("senhas não coincidem");
+    } 
+  }else {
+    alert("é necessário preencher todos os campos")
   }
+}
 
   React.useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow);
@@ -59,7 +63,6 @@ export default function Regsiter({ navigation }) {
       Animated.spring(offSet.y, {
         toValue: 0,
         speed: 1,
-        bounciness: 15,
       }),
       Animated.timing(opacity, {
         toValue: 1,
