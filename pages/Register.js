@@ -26,34 +26,34 @@ export default function Regsiter({ navigation }) {
 
 
   const handleRegister = () => {
-    if (password != "" && email != ""){
-    if (password == confirmPassword) {
-      fetch(`${URL}/users?email=${email}&password=${password}`, {
-        method: "POST",
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+    if (password != "" && email != "") {
+      if (password == confirmPassword) {
+        fetch(`${URL}/users?email=${email}&password=${password}`, {
+          method: "POST",
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
 
-      }).then((response) => response.json())
-        .then((result) => {
-          if (result.length != 0) {
-            navigation.navigate("Login");
-            alert("conta criada, faça seu login!")
-          } else {
-            alert("dados inválidos")
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+        }).then((response) => response.json())
+          .then((result) => {
+            if (result.length != 0) {
+              navigation.navigate("Login");
+              alert("conta criada, faça seu login!")
+            } else {
+              alert("dados inválidos")
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      } else {
+        alert("senhas não coincidem");
+      }
     } else {
-      alert("senhas não coincidem");
-    } 
-  }else {
-    alert("é necessário preencher todos os campos")
+      alert("é necessário preencher todos os campos")
+    }
   }
-}
 
   React.useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow);

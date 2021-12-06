@@ -14,6 +14,14 @@ export default function HomeScreen() {
   const carouselRef = React.useRef(null);
   const URL = 'http://localhost:3000';
 
+  const handleFavorite = (color) => {
+    if (heart == "#FFF") {
+      setOutlineHeart("red");
+    } else {
+      setOutlineHeart("#FFF")
+    }
+  }
+
   const [lista, setLista] = React.useState([
     {
       title: "O Justiceiro",
@@ -53,7 +61,7 @@ export default function HomeScreen() {
     },
   ]);
   const [background, setBackground] = React.useState(lista[0].img)
-  const [heart, setOutlineHeart] = React.useState(true);
+  const [heart, setOutlineHeart] = React.useState("#FFF");
 
   const [activeIndex, setActiveIndex] = React.useState(0);
 
@@ -65,17 +73,13 @@ export default function HomeScreen() {
             source={{ uri: item.img }}
             style={styles.carouselImg} />
           <Text style={styles.carouselText}>{item.title}</Text>
-          {heart ?
-            <Icon
-              name="favorite"
-              size={30}
-              color="#FFF"
-              style={styles.carouselIcon}
-              onPress={() => setOutlineHeart(!heart)} />
-            :
-            <Icon name="favorite" style={styles.carouselIcon} color="red" size={30} onPress={() => setOutlineHeart(!heart)} />
+          <Icon
+            name="favorite"
+            size={30}
+            color={heart}
+            style={styles.carouselIcon}
+            onPress={() => handleFavorite()} />
 
-          }
         </TouchableOpacity>
       </View>
     )
