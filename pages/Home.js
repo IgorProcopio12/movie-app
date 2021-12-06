@@ -10,6 +10,7 @@ import HomeScreen from './TabsPages/HomeScreen';
 import Add from './TabsPages/Add';
 import Profile from './TabsPages/Profile';
 import AddButton from '../Components/AddButton';
+import Favorties from './TabsPages/Favorites';
 
 
 
@@ -44,7 +45,7 @@ export default function Home({ navigation }) {
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <Entypo name="home" size={size} color={color} style={{marginBottom:10,}} />
+                        <Entypo name="home" size={size} color={color} style={{ marginBottom: 10, }} />
                     )
                 }}
             />
@@ -52,18 +53,28 @@ export default function Home({ navigation }) {
                 name="Adicionar"
                 component={Add}
                 options={{
-                    tabBarIcon: ({ focused, size, color }) => (
-                        <AddButton size={size} color={color} focused={focused} />
+                    tabBarIcon: ({ size, color }) => (
+                        <Entypo name="add-to-list" size={size} color={color} style={{ marginBottom: 10, }} />
+                    )
+                }}
+            />
+
+            <Tab.Screen
+                name="Favoritos"
+                component={Favorties}
+                options={{
+                    tabBarIcon: ({ size, color }) => (
+                        <Entypo name="list" size={size} color={color} style={{ marginBottom: 10, }} />
                     )
                 }}
             />
 
             <Tab.Screen
                 name="Perfil"
-                component={Profile} 
+                component={Profile}
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <Entypo name="user" size={size} color={color} style={{marginBottom:10,}} />
+                        <Entypo name="user" size={size} color={color} style={{ marginBottom: 10, }} />
                     )
                 }}
             />

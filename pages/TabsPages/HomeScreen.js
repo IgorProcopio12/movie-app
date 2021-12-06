@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
 import { useList } from 'react-firebase-hooks/database'
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 import firebase from '../../services/firebase'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-
 import Icon from '@expo/vector-icons/MaterialIcons';
 import Carousel from 'react-native-snap-carousel';
 
+import { Modalize } from 'react-native-modalize';
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
@@ -19,8 +19,9 @@ export default function HomeScreen() {
 
   const handleFavorite = (color) => {
     if (heart == "#FFF") {
-      setOutlineHeart("red");
+      setOutlineHeart("crimson");
     } else {
+
       setOutlineHeart("#FFF")
     }
   }
@@ -29,10 +30,10 @@ export default function HomeScreen() {
   const starCountRef = ref(db, '/movies');
   onValue(starCountRef, (snapshot) => {
     const data = snapshot.val();
-    
-    
+
+
   });
-  
+
   const [lista, setLista] = React.useState([
     {
       title: "O Justiceiro",
@@ -75,14 +76,22 @@ export default function HomeScreen() {
   const [heart, setOutlineHeart] = React.useState("#FFF");
 
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const modalizeRef = React.useRef(null);
+
+  const openModalize = () => {
+    modalizeRef.current?.open();
+  }
 
   const _renderItem = ({ item, index }) => {
     return (
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={openModalize}
+        >
           <Image
             source={{ uri: item.img }}
-            style={styles.carouselImg} />
+            style={styles.carouselImg}
+          />
           <Text style={styles.carouselText}>{item.title}</Text>
           <Icon
             name="favorite"
@@ -90,22 +99,23 @@ export default function HomeScreen() {
             color={heart}
             style={styles.carouselIcon}
             onPress={() => handleFavorite()} />
-
         </TouchableOpacity>
+
       </View>
     )
   };
 
+
   return (
     <ScrollView styles={styles.container} >
       <View style={{ flex: 1, height: screenHeight }}>
-        <View style={{ ...StyleSheet.absoluteFill, }}>
+        <View style={{ ...StyleSheet.absoluteFill, height: screenHeight}}>
           <ImageBackground
+            // source={{ uri: background }}
             style={styles.imgBg}
             blurRadius={8}
           >
             <View style={{ flexDirection: 'row' }}>
-
               <Image source={require('./movie.png')} style={styles.logo} />
               <TextInput
                 style={styles.input}
@@ -117,6 +127,7 @@ export default function HomeScreen() {
             </Text>
             <View style={styles.slideView}>
               <Carousel
+                onPress={() => openModalize}
                 style={styles.carousel}
                 ref={carouselRef}
                 data={lista}
@@ -127,47 +138,21 @@ export default function HomeScreen() {
                 onSnapToItem={(index) => {
                   setBackground(lista[index].img);
                   setActiveIndex(index);
-                }}
-              />
-            </View>
-            <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Romance
-            </Text>
-            <View style={styles.slideView}>
-              <Carousel
-                style={styles.carousel}
-                ref={carouselRef}
-                data={lista}
-                renderItem={_renderItem}
-                sliderWidth={screenWidth}
-                itemWidth={200}
-                inactiveSlideOpacity={0.5}
-                onSnapToItem={(index) => {
-                  setBackground(lista[index].img);
-                  setActiveIndex(index);
-                }}
-              />
-            </View>
-            <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Comédia
-            </Text>
-            <View style={styles.slideView}>
-              <Carousel
-                style={styles.carousel}
-                ref={carouselRef}
-                data={lista}
-                renderItem={_renderItem}
-                sliderWidth={screenWidth}
-                itemWidth={200}
-                inactiveSlideOpacity={0.5}
-                onSnapToItem={(index) => {
-                  setBackground(lista[index].img);
-                  setActiveIndex(index);
+
                 }}
               />
             </View>
           </ImageBackground>
-
+          <Modalize
+          backgroundColor={"black"}
+            ref={modalizeRef}
+            snapPoint={300}
+            modalHeight={500}
+          >
+            <View style={{  flex: 1, height: 180, justifyContent: 'space-around', alignItems: 'center', margin: 10, marginTop: 30 }}>
+              <Text>aaaaaaaaaaaaaaa</Text>
+            </View>
+          </Modalize>
         </View>
 
       </View>
@@ -190,7 +175,6 @@ const styles = StyleSheet.create({
     opacity: 1,
     justifyContent: 'flex-start',
     backgroundColor: "#222"
-
   },
   logo: {
     width: 60,
