@@ -1,10 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as React from "react";
+import { getDatabase, ref, onValue} from "firebase/database";
 import {
   Animated,
   Keyboard, KeyboardAvoidingView, StyleSheet, Text,
   TextInput, TouchableOpacity, View
 } from "react-native";
+import firebase from '../services/firebase';
 
 export default function Login({ navigation }) {
   const URL = 'http://localhost:3000';
@@ -16,23 +18,20 @@ export default function Login({ navigation }) {
   const [password, setPassword] = React.useState("");
   const [hidePass, setHidePass] = React.useState(true);
 
-  const handleLogin = () => {
-    fetch(`${URL}/users?email=${email}&password=${password}`, {
-      method: "GET",
-      headers: {
-        'content-type': 'application/json'
-      }
-    }).then((response) => response.json())
-      .then((result) => {
-        if (result.length != 0) {
+
+
+  const handleLoginFirebase = () =>{
+    const db = firebase.getAll();
+    const usersList = ref(db, 'users/');
+    onValue(usersList, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data)
+      for (const element in data){
+        if(password == data[element].senha && email == data[element].email){
           navigation.navigate("Home");
-        } else {
-          alert("dados inválidos")
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+        }        
+      }
+    });
   }
 
   console.log(password);
@@ -165,7 +164,7 @@ export default function Login({ navigation }) {
             }
           </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={handleLogin}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={handleLoginFirebase}>
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
 

@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
+import { useList } from 'react-firebase-hooks/database'
+import { getDatabase, ref, onValue} from "firebase/database";
+import firebase from '../../services/firebase'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 import Icon from '@expo/vector-icons/MaterialIcons';
@@ -22,6 +25,14 @@ export default function HomeScreen() {
     }
   }
 
+  const db = firebase.getAll();
+  const starCountRef = ref(db, '/movies');
+  onValue(starCountRef, (snapshot) => {
+    const data = snapshot.val();
+    
+    
+  });
+  
   const [lista, setLista] = React.useState([
     {
       title: "O Justiceiro",

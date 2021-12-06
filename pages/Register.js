@@ -11,7 +11,8 @@ import {
   Keyboard,
 } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-
+import { getDatabase, ref, set } from "firebase/database";
+import firebase from "../services/firebase";
 export default function Regsiter({ navigation }) {
   const URL = 'http://localhost:3000';
   const [offSet] = React.useState(new Animated.ValueXY({ x: 0, y: 95 }));
@@ -53,6 +54,25 @@ export default function Regsiter({ navigation }) {
     } else {
       alert("é necessário preencher todos os campos")
     }
+  }
+  
+
+  const handlerRegisterFirebase = () =>{
+    if (password != "" && email != "") {
+      if (password == confirmPassword) {
+        writeUserData(email, password);
+        navigation.navigate("Login");
+      }
+    }
+  }
+
+  function writeUserData(email, senha) {
+    const db = firebase.getAll();
+    const id =  Math.floor(Math.random() * 10000);
+    set(ref(db, 'users/' + id), {
+      email: email,
+      senha : senha
+    });
   }
 
   React.useEffect(() => {
@@ -188,7 +208,7 @@ export default function Regsiter({ navigation }) {
           </TouchableOpacity>
 
         </Animated.View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={handleRegister}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={handlerRegisterFirebase}>
           <Text style={styles.submitText}>Cadastrar</Text>
         </TouchableOpacity>
 
