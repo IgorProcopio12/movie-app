@@ -11,6 +11,8 @@ import {
   Keyboard
 } from "react-native";
 
+
+
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -23,7 +25,7 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Login"
       screenOptions={{
         // headerTitleAlign: "center",
         // headerMode: "screen",

@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/MaterialIcons';
 
 
+
 export default function Profile({ navigation }) {
     return (
         <View style={{ flex: 1, backgroundColor: "#222", }}>
@@ -39,7 +40,7 @@ export default function Profile({ navigation }) {
 
                     <Text style={{ fontSize: 20, color: 'white' }}>Ajuda</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itens} onPress={() => navigation.navigate("Login")}>
+                <TouchableOpacity style={styles.itens} onPress={() => {navigation.navigate("Login")}}>
                     <Icon
                         name="logout"
                         size={30}
