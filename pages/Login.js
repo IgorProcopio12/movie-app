@@ -42,6 +42,7 @@ export default function Login({ navigation }) {
     
     (async () => {
         let isLogged = await getData();
+        console.log(isLogged)
         if(isLogged == "true"){
             navigation.navigate("Home");
             console.log(isLogged)
@@ -56,7 +57,7 @@ export default function Login({ navigation }) {
             for (const element in data) {
                 if (password == data[element].senha && email == data[element].email) {
                     navigation.navigate("Home");
-                        storeData("true")
+                    storeData("true")
                       
                 }
             }
