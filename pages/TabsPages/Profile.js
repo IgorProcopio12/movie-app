@@ -1,21 +1,37 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, Animated, View, StyleSheet, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const storeData = async (value) => {
     try {
-      await AsyncStorage.setItem('@logged',value)
-      console.log(value)
+        await AsyncStorage.setItem('@logged', value)
+        console.log(value)
     } catch (e) {
-      // saving error
+        // saving error
     }
-  }    
+}
+
+
 
 export default function Profile({ navigation }) {
+    const [opacity] = React.useState(new Animated.Value(0));
+
+
+    React.useEffect(() => {
+
+        Animated.parallel([
+            Animated.timing(opacity, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: false,
+
+            }),
+        ]).start();
+    }, []);
     return (
-        <View style={{ flex: 1, backgroundColor: "#222", }}>
+        <Animated.View style={{ flex: 1, opacity: opacity, backgroundColor: "#222", }}>
             <Text style={{ fontSize: 20, alignItems: 'center', textAlign: 'center', color: 'white', marginTop: 40, marginBottom: 10 }}>Perfil</Text>
             <View>
                 <TouchableOpacity style={styles.itens}>
@@ -48,7 +64,7 @@ export default function Profile({ navigation }) {
 
                     <Text style={{ fontSize: 20, color: 'white' }}>Ajuda</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itens} onPress={() => {navigation.navigate("Login"); storeData("false")}}>
+                <TouchableOpacity style={styles.itens} onPress={() => { navigation.navigate("Login"); storeData("false") }}>
                     <Icon
                         name="logout"
                         size={30}
@@ -60,7 +76,7 @@ export default function Profile({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-        </View>
+        </Animated.View>
     );
 }
 

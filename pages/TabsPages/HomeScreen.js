@@ -84,7 +84,7 @@ export default function HomeScreen() {
 
   const _renderItem = ({ item, index }) => {
     return (
-      <View>
+      <ScrollView>
         <TouchableOpacity
           onPress={openModalize}
         >
@@ -100,8 +100,7 @@ export default function HomeScreen() {
             style={styles.carouselIcon}
             onPress={() => handleFavorite()} />
         </TouchableOpacity>
-
-      </View>
+      </ScrollView>
     )
   };
 
@@ -109,7 +108,7 @@ export default function HomeScreen() {
   return (
     <ScrollView styles={styles.container} >
       <View style={{ flex: 1, height: screenHeight }}>
-        <View style={{ ...StyleSheet.absoluteFill, height: screenHeight}}>
+        <View style={{ ...StyleSheet.absoluteFill, height: screenHeight }}>
           <ImageBackground
             // source={{ uri: background }}
             style={styles.imgBg}
@@ -144,12 +143,11 @@ export default function HomeScreen() {
             </View>
           </ImageBackground>
           <Modalize
-          backgroundColor={"black"}
+            style={{ backgroundColor: "black" }} 
             ref={modalizeRef}
             snapPoint={300}
-            modalHeight={500}
           >
-            <View style={{  flex: 1, height: 180, justifyContent: 'space-around', alignItems: 'center', margin: 10, marginTop: 30 }}>
+            <View style={{ flex: 1, height: 180, justifyContent: 'space-around', alignItems: 'center', margin: 10, marginTop: 30 }}>
               <Text>aaaaaaaaaaaaaaa</Text>
             </View>
           </Modalize>

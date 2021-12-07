@@ -1,15 +1,31 @@
 import * as React from 'react';
-import { Text, TouchableOpacity, StyleSheet, View, Dimensions } from 'react-native';
+import { Text, TouchableOpacity, Animated, StyleSheet, View, Dimensions } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 
 
 export default function Add() {
+  const [opacity] = React.useState(new Animated.Value(0));
+
   const modalizeRef = React.useRef(null);
 
   const openModalize = () => {
     modalizeRef.current?.open();
   }
+
+  React.useEffect(() => {
+
+    Animated.parallel([
+      Animated.timing(opacity, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: false,
+
+      }),
+  ]).start();
+}, []);
+
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "#222" }}>
       <TouchableOpacity style={styles.btnSubmit} onPress={openModalize}>
@@ -20,7 +36,7 @@ export default function Add() {
         snapPoint={600}
         modalHeight={700}
       >
-        <View style={{ flex: 1, width:'100%', height: '100%', justifyContent: 'center',  alignItems: 'center', margin: 10, marginTop: 30 }}>
+        <Animated.View style={{ flex: 1, opacity: opacity, width:'100%', height: '100%', justifyContent: 'center',  alignItems: 'center', margin: 10, marginTop: 30 }}>
           <Text style={{ fontStyle: 'italic', fontSize: 20, marginTop: 20 }}>Adicione seu filme favorito!</Text>
 
           <TextInput style={styles.input} placeholder="Título">
@@ -40,7 +56,7 @@ export default function Add() {
           <TouchableOpacity style={styles.btnSubmit}>
             <Text style={styles.submitText}>Confirmar</Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </Modalize>
     </View>
 
