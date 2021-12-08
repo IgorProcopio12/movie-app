@@ -2,12 +2,18 @@ import * as React from 'react';
 import { Text, TouchableOpacity, Animated, StyleSheet, View, Dimensions } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
-
+import { getDatabase, ref, set } from "firebase/database";
+import firebase from "../../services/firebase";
 
 export default function Add() {
   const [opacity] = React.useState(new Animated.Value(0));
 
   const modalizeRef = React.useRef(null);
+  const [titulo, setTitulo] = React.useState("");
+  const [desc, setDesc] = React.useState("");
+  const [genero, setGenero] = React.useState("");
+  const [ano, setAno] = React.useState("");
+  const [img, setImg] = React.useState("");
 
   const openModalize = () => {
     modalizeRef.current?.open();
@@ -26,6 +32,24 @@ export default function Add() {
 }, []);
 
 
+  const handleCadastro = () =>{
+          writeMovie(titulo, desc, genero, ano, img);
+
+      }
+
+  function writeMovie(titulo, desc, genero, ano, img) {
+    const db = firebase.getAll();
+    const id =  Math.floor(Math.random() * 10000);
+    set(ref(db, 'movies/' + id), {
+      id: id,
+      title: titulo,
+      text: desc,
+      genre: genero,
+      release: ano,
+      img: img
+    });
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "#222" }}>
       <TouchableOpacity style={styles.btnSubmit} onPress={openModalize}>
@@ -39,21 +63,21 @@ export default function Add() {
         <Animated.View style={{ flex: 1, opacity: opacity, width:'100%', height: '100%', justifyContent: 'center',  alignItems: 'center', margin: 10, marginTop: 30 }}>
           <Text style={{ fontStyle: 'italic', fontSize: 20, marginTop: 20 }}>Adicione seu filme favorito!</Text>
 
-          <TextInput style={styles.input} placeholder="Título">
+          <TextInput style={styles.input} onChangeText={setTitulo} placeholder="Título">
           </TextInput>
-          <TextInput style={styles.input} placeholder="Descrição">
+          <TextInput style={styles.input} onChangeText={setDesc} placeholder="Descrição">
 
           </TextInput>
-          <TextInput style={styles.input} placeholder="Gênero">
+          <TextInput style={styles.input} onChangeText={setGenero} placeholder="Gênero">
 
           </TextInput>
-          <TextInput style={styles.input} placeholder="Ano de lançamento">
+          <TextInput style={styles.input} onChangeText={setAno} placeholder="Ano de lançamento">
 
           </TextInput>
-          <TextInput style={styles.input} placeholder="URL da imagem">
+          <TextInput style={styles.input} onChangeText={setImg} placeholder="URL da imagem">
 
           </TextInput >
-          <TouchableOpacity style={styles.btnSubmit}>
+          <TouchableOpacity style={styles.btnSubmit} onPress={handleCadastro}>
             <Text style={styles.submitText}>Confirmar</Text>
           </TouchableOpacity>
         </Animated.View>

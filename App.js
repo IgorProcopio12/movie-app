@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
-  Keyboard
+  Keyboard,
+  StatusBar,
+  SafeAreaView
 } from "react-native";
 
 
@@ -44,8 +46,8 @@ function MyStack() {
 
   export default function App() {
     return (
-      <NavigationContainer>
-        <MyStack />
-      </NavigationContainer>
+        <NavigationContainer>
+          <MyStack />
+        </NavigationContainer>
     );
   }

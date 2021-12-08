@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Image } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Image, SafeAreaView } from 'react-native';
 import { useList } from 'react-firebase-hooks/database'
 import { getDatabase, ref, onValue } from "firebase/database";
 import firebase from '../../services/firebase'
@@ -26,13 +26,17 @@ export default function HomeScreen() {
     }
   }
 
+  const handleFirebase = (data) =>{
+    setCards(data);
+  }
+
+  const [cards, setCards] = React.useState({});
+  
   const db = firebase.getAll();
   const starCountRef = ref(db, '/movies');
   onValue(starCountRef, (snapshot) => {
     const data = snapshot.val();
-
-
-  });
+    });
 
   const [lista, setLista] = React.useState([
     {
@@ -72,12 +76,17 @@ export default function HomeScreen() {
       img: 'https://sujeitoprogramador.com/wp-content/uploads/2020/05/freeguy.jpg'
     },
   ]);
+
+
+
   const [background, setBackground] = React.useState(lista[0].img)
   const [heart, setOutlineHeart] = React.useState("#FFF");
 
   const [activeIndex, setActiveIndex] = React.useState(0);
   const modalizeRef = React.useRef(null);
-
+  React.useEffect(()=>{
+      console.log(activeIndex);
+  })
   const openModalize = () => {
     modalizeRef.current?.open();
   }
@@ -86,7 +95,7 @@ export default function HomeScreen() {
     return (
       <ScrollView>
         <TouchableOpacity
-          onPress={openModalize}
+          onPress={() => {openModalize();setActiveIndex(index);}}
         >
           <Image
             source={{ uri: item.img }}
@@ -106,129 +115,131 @@ export default function HomeScreen() {
 
 
   return (
-    <ScrollView styles={styles.container} >
-      <View style={{ flex: 1, height: screenHeight }}>
-        <View style={{ ...StyleSheet.absoluteFill, height: screenHeight }}>
-          <ImageBackground
-            // source={{ uri: background }}
-            style={styles.imgBg}
-            blurRadius={8}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Image source={require('./movie.png')} style={styles.logo} />
-              <TextInput
-                style={styles.input}
-                placeholder="Procurando algo?">
-              </TextInput>
-            </View>
-            <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
-              Ação/Aventura
-            </Text>
-            <View style={styles.slideView}>
-              <Carousel
-                onPress={() => openModalize}
-                style={styles.carousel}
-                ref={carouselRef}
-                data={lista}
-                renderItem={_renderItem}
-                sliderWidth={screenWidth}
-                itemWidth={200}
-                inactiveSlideOpacity={0.5}
-                onSnapToItem={(index) => {
-                  setBackground(lista[index].img);
-                  setActiveIndex(index);
-
-                }}
-              />
-            </View>
-          </ImageBackground>
-          <Modalize
-            style={{ backgroundColor: "black" }} 
-            ref={modalizeRef}
-            snapPoint={300}
-          >
-            <View style={{ flex: 1, height: 180, justifyContent: 'space-around', alignItems: 'center', margin: 10, marginTop: 30 }}>
-              <Text>aaaaaaaaaaaaaaa</Text>
-            </View>
-          </Modalize>
+      <ScrollView styles={styles.container} >
+        <View style={{ flex: 1, height: screenHeight }}>
+          <View style={{ ...StyleSheet.absoluteFill, height: screenHeight }}>
+            <ImageBackground
+              // source={{ uri: background }}
+              style={styles.imgBg}
+              blurRadius={8}
+            >
+              <View style={{ flexDirection: 'row' }}>
+                <Image source={require('./movie.png')} style={styles.logo} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Procurando algo?">
+                </TextInput>
+              </View>
+              <Text style={{ color: '#FFF', fontSize: 25, marginLeft: 10, marginVertical: 10, }}>
+                Ação/Aventura
+              </Text>
+              <View style={styles.slideView}>
+                <Carousel
+                  onPress={() => {openModalize();}}
+                  keyExtractor={item => item.id}
+                  style={styles.carousel}
+                  ref={carouselRef}
+                  data={lista}
+                  renderItem={_renderItem}
+                  sliderWidth={screenWidth}
+                  itemWidth={200}
+                  inactiveSlideOpacity={0.5}
+                />
+              </View>
+            </ImageBackground>
+            <Modalize
+              style={{ backgroundColor: "black" }}
+              ref={modalizeRef}
+              snapPoint={300}
+            >
+              <View style={{ flex: 1, height: 180, justifyContent: 'space-around', alignItems: 'center', margin: 10, marginTop: 30 }}>
+                <Text style={{fontSize: 20, padding: 5 }}>{lista[activeIndex].title}</Text>
+                <Image
+                    source={{ uri: lista[activeIndex].img }}
+                    style={styles.carouselImg}
+                />
+                <Text style={{fontSize: 12, padding: 5, marginTop: 10 }}>Ano de lançamento: {lista[activeIndex].release}</Text>
+                <Text style={{fontSize: 17, padding: 5, marginTop: 10 }}>{lista[activeIndex].text}</Text>
+                
+              </View>
+            </Modalize>
+          </View>
         </View>
-
-      </View>
-    </ScrollView>
-  )
+      </ScrollView>
+      )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#191919',
-    color: '#FFFFFF',
+      const styles = StyleSheet.create({
+      container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#191919',
+      color: '#FFFFFF',
   },
-  imgBg: {
-    flex: 1,
-    width: null,
-    height: null,
-    opacity: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: "#222"
+      imgBg: {
+      flex: 1,
+      width: null,
+      height: null,
+      opacity: 1,
+      justifyContent: 'flex-start',
+      backgroundColor: "#222"
   },
-  logo: {
-    width: 60,
-    height: 60,
-    marginTop: 45,
-    marginLeft: 10,
+      logo: {
+        width: 60,
+      height: 60,
+      marginTop: 45,
+      marginLeft: 10,
   },
-  input: {
-    backgroundColor: '#CFCFCF',
-    width: '75%',
-    height: '40%',
-    borderRadius: 7,
-    fontSize: 16,
-    fontStyle: 'italic',
-    padding: 10,
-    marginTop: 55,
-    marginLeft: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
+      input: {
+        backgroundColor: '#CFCFCF',
+      width: '75%',
+      height: '40%',
+      borderRadius: 7,
+      fontSize: 16,
+      fontStyle: 'italic',
+      padding: 10,
+      marginTop: 55,
+      marginLeft: 10,
+      alignSelf: 'center',
+      justifyContent: 'center',
   },
-  icon: {
-    position: 'absolute',
-    right: 20,
-    top: 15,
+      icon: {
+        position: 'absolute',
+      right: 20,
+      top: 15,
   },
-  slideView: {
-    width: '100%',
-    height: 350,
-    justifyContent: 'center',
-    alignItems: 'center',
+      slideView: {
+        width: '100%',
+      height: 350,
+      justifyContent: 'center',
+      alignItems: 'center',
   },
-  carousel: {
-    flex: 1,
-    overflow: 'visible',
+      carousel: {
+        flex: 1,
+      overflow: 'visible',
 
   },
-  carouselImg: {
-    alignSelf: 'center',
-    width: 200,
-    height: 300,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+      carouselImg: {
+        alignSelf: 'center',
+      width: 200,
+      height: 300,
+      borderRadius: 12,
+      backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  carouselText: {
-    paddingLeft: 15,
-    color: '#FFF',
-    position: 'absolute',
-    bottom: 10,
-    left: 2,
-    fontWeight: 'bold',
+      carouselText: {
+        paddingLeft: 15,
+      color: '#FFF',
+      position: 'absolute',
+      bottom: 10,
+      left: 2,
+      fontWeight: 'bold',
 
   },
-  carouselIcon: {
-    position: 'absolute',
-    top: 25,
-    right: 15,
+      carouselIcon: {
+        position: 'absolute',
+      top: 25,
+      right: 15,
   },
 
 })
