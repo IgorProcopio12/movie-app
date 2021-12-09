@@ -34,6 +34,7 @@ export default function Add() {
 
   const handleCadastro = () =>{
           writeMovie(titulo, desc, genero, ano, img);
+          modalizeRef.current?.close();
 
       }
 

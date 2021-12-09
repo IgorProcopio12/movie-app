@@ -21,9 +21,11 @@ export default function Login({ navigation }) {
     const [password, setPassword] = React.useState("");
     const [hidePass, setHidePass] = React.useState(true);
     
-    const storeData = async (value) => {
+    const storeData = async (value1, fav) => {
         try {
-          await AsyncStorage.setItem('@logged',value)
+          await AsyncStorage.setItem('@logged',value1)
+          await AsyncStorage.setItem('@fav',fav)
+       
         } catch (e) {
           // saving error
         }
@@ -42,10 +44,8 @@ export default function Login({ navigation }) {
     
     (async () => {
         let isLogged = await getData();
-        console.log(isLogged)
         if(isLogged == "true"){
             navigation.navigate("Home");
-            console.log(isLogged)
         }
       })()
 
@@ -57,8 +57,7 @@ export default function Login({ navigation }) {
             for (const element in data) {
                 if (password == data[element].senha && email == data[element].email) {
                     navigation.navigate("Home");
-                    storeData("true")
-                      
+                    storeData("true", JSON.stringify(data[element].favoritos))
                 }
             }
         });

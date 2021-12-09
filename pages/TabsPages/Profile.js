@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const storeData = async (value) => {
     try {
         await AsyncStorage.setItem('@logged', value)
-        console.log(value)
     } catch (e) {
         // saving error
     }
