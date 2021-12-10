@@ -3,46 +3,84 @@ import { Text, View, ScrollView, StyleSheet, Dimensions, ImageBackground, Image 
 import { useList } from 'react-firebase-hooks/database'
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useListVals } from 'react-firebase-hooks/database'
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from '@expo/vector-icons/MaterialIcons';
-import Carousel from 'react-native-snap-carousel';
-import { Modalize } from 'react-native-modalize';
+
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from '../../services/firebase'
-import { render } from 'react-dom';
+import MyCarousel from '../../Components/MyCarousel';
+import MyModalize from '../../Components/MyModalize';
+
 
 export default function Favorties() {
   const db = firebase.getAll();
   const [snapshots, loading, error] = useListVals(ref(db, '/movies'));
   const [favoritos, setState] = React.useState([]);
-  
-  const asyncF = async () => {
+  const [roda, setRoda] = React.useState(true);
+  const carouselRef = React.useRef(null);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const modalizeRef = React.useRef(null);
+  const [listaAtiva, setListaAtiva] = React.useState(1);
+  // const asyncF = async () => {
+  //   try {
+  //     let user = await AsyncStorage.getItem('@fav');
+  //     if(user){
+  //       setState(JSON.parse(user));
+  //     }
+  //   }
+  //   catch {
+  //   }
+  // }
+  const openModalize = () => {
+    modalizeRef.current?.open();
+  }
+
+  const getData = async () => {
     try {
-      let user = await AsyncStorage.getItem('@fav');
-      setState(JSON.parse(user));
-      
-    }
-    catch {
+      const jsonValue = await AsyncStorage.getItem('@fav')
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      // error reading value
     }
   }
-  
-  const getFavoritos = () => {
-    asyncF();
-    let lista = []
-      for(const filme of snapshots){
-        console.log(filme.id)
-        for(const fav of favoritos){
-            if(filme.id == fav){
-              lista.push(filme);
-            }
-          }    
-          }
-          return lista;
+
+  if (roda) {
+    getData().then(result => {
+      setState(result)
+      setRoda(false)
+    })
+  }
+
+  const returnListaFilmesFavoritos = () => {
+    let lista = [];
+
+    const array = Object.values(favoritos);;
+    // console.log(favoritos)
+    for (const filme of snapshots) {
+      console.log('oi')
+      for(let i=0; i<array.length; i++){
+        console.log(filme.id +  ' == ' + array[i])
+        if (filme.id == array[i]) {
+          lista.push(filme)
+        }
       }
+    }
+
+
+    console.log(lista)
+    
+    return lista;
+  }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "#222" }}>
-      <Text>{}</Text>
+    <View style={{ flex: 1, backgroundColor: "#222" }}>
+      {(favoritos && !loading) ?
+      <View>
+      <MyCarousel carouselRef={carouselRef} snapshots={returnListaFilmesFavoritos()} setActiveIndex={setActiveIndex} openModalize={openModalize} setListaAtiva={setListaAtiva} listaAtiva={1} title="Favoritos" />
+      {/* <MyModalize modalizeRef={modalizeRef} snapshots={returnListaFilmesFavoritos()} activeIndex={activeIndex} /> */}
+      </View>
+      : null}
+
+         
     </View>
   )
 

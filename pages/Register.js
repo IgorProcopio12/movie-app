@@ -70,8 +70,9 @@ export default function Regsiter({ navigation }) {
     const db = firebase.getAll();
     const id =  Math.floor(Math.random() * 10000);
     set(ref(db, 'users/' + id), {
+      id: id,
       email: email,
-      senha : senha
+      senha : senha,
     });
   }
 

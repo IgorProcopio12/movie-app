@@ -21,11 +21,11 @@ export default function Login({ navigation }) {
     const [password, setPassword] = React.useState("");
     const [hidePass, setHidePass] = React.useState(true);
     
-    const storeData = async (value1, fav) => {
+    const storeData = async (value1, fav, id) => {
         try {
           await AsyncStorage.setItem('@logged',value1)
           await AsyncStorage.setItem('@fav',fav)
-       
+          await AsyncStorage.setItem('@id',id)
         } catch (e) {
           // saving error
         }
@@ -57,7 +57,7 @@ export default function Login({ navigation }) {
             for (const element in data) {
                 if (password == data[element].senha && email == data[element].email) {
                     navigation.navigate("Home");
-                    storeData("true", JSON.stringify(data[element].favoritos))
+                    storeData("true", JSON.stringify(data[element].favoritos),data[element].id )
                 }
             }
         });
